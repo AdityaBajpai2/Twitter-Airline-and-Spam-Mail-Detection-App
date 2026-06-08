@@ -9,16 +9,26 @@ spam_vectorizer = pickle.load(open("spam_vectorizer.pkl", "rb"))
 
 def predict_twitter_sentiment(new_tweet):
     X_new = airline_vectorizer.transform([new_tweet])
-    prediction = sentiment_model.predict(X_new)
-    return prediction[0]
+    prediction = sentiment_model.predict(X_new)[0]
+
+    label_map = {
+        0: "negative",
+        1: "neutral",
+        2: "positive"
+    }
+
+    return label_map.get(prediction, str(prediction))
 
 def predict_spam_mail(new_email):
     X_new = spam_vectorizer.transform([new_email])
-    prediction = spam_model.predict(X_new)
-    if prediction[0] == 0:
+    prediction = spam_model.predict(X_new)[0]
+
+    if prediction == 0:
         return "Not Spam"
-    else:
+    elif prediction == 1:
         return "Spam"
+    else:
+        return str(prediction)
 
 def main():
     st.title("NLP Classification App")
