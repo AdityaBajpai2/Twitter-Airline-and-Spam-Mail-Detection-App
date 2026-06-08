@@ -7,13 +7,10 @@ sentiment_model = pickle.load(open("twitter_sentiment_pred.sav", "rb"))
 spam_model = pickle.load(open("spam_mail_predict.sav", "rb"))
 spam_vectorizer = pickle.load(open("spam_vectorizer.pkl", "rb"))
 
-twitter_encoder = pickle.load(open("twitter_encoder.sav", "rb"))
-
 def predict_twitter_sentiment(new_tweet):
     X_new = airline_vectorizer.transform([new_tweet])
     prediction = sentiment_model.predict(X_new)
-    sentiment = twitter_encoder.inverse_transform(prediction)
-    return sentiment[0]
+    return prediction[0]
 
 def predict_spam_mail(new_email):
     X_new = spam_vectorizer.transform([new_email])
@@ -25,7 +22,7 @@ def predict_spam_mail(new_email):
 
 def main():
     st.title("NLP Classification App")
-    st.write("This app predicts tweet sentiment and spam mail.")
+    st.write("This app predicts Twitter airline sentiment and spam mail.")
 
     option = st.selectbox(
         "Choose task",
